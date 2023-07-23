@@ -1,0 +1,453 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=2"/><meta name="theme-color" content="#222"/><meta http-equiv="X-UA-COMPATIBLE" content="IE=edge,chrome=1"/><meta name="renderer" content="webkit"/><link rel="icon" type="image/ico" sizes="32x32" href="/assets/favicon.ico"/><link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png"/><link rel="alternate" href="/rss.xml" title="盧瞳Blog" type="application/rss+xml"><link rel="alternate" href="/atom.xml" title="盧瞳Blog" type="application/atom+xml"><link rel="alternate" type="application/json" title="盧瞳Blog" href="http://blog.1think2program.cn/feed.json"/><link rel="preconnect" href="https://lf9-cdn-tos.bytecdntp.com"/><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"/><link rel="dns-prefetch" href="https://unpkg.com"/><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Mulish:300,300italic,400,400italic,700,700italic%7CFredericka%20the%20Great:300,300italic,400,400italic,700,700italic%7CNoto%20Serif%20JP:300,300italic,400,400italic,700,700italic%7CNoto%20Serif%20SC:300,300italic,400,400italic,700,700italic%7CInconsolata:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext"><link rel="stylesheet" href="/css/app.css?v=0.2.10"><script src="https://cdn.staticfile.org/vue/3.2.45/vue.global.prod.js"></script><link rel="stylesheet" href="https://unpkg.com/@waline/client@v2/dist/waline.css"/><meta name="keywords" content="前端,"/><link rel="canonical" href="http://blog.1think2program.cn/2023/07/03/vue%E5%AD%A6%E4%B9%A0/v-on%E8%AF%A6%E8%A7%A3/"><title>v-on详解</title><meta name="generator" content="Hexo 6.3.0"></head><body itemscope itemtype="http://schema.org/WebPage"><div id="loading"><div class="cat"><div class="body"></div><div class="head"><div class="face"></div></div><div class="foot"><div class="tummy-end"></div><div class="bottom"></div><div class="legs left"></div><div class="legs right"></div></div><div class="paw"><div class="hands left"></div><div class="hands right"></div></div></div></div><div id="container"><header id="header" itemscope itemtype="http://schema.org/WPHeader"><div class="inner"><div id="brand"><div class="pjax"><h1 itemprop="name headline">v-on详解</h1><div class="meta"><span class="item" title="创建时间：2023-07-03 20:46:25"><span class="icon"><i class="ic i-calendar"></i></span><span class="text">发表于</span><time itemprop="dateCreated datePublished" datetime="2023-07-03T20:46:25+08:00">2023-07-03</time></span><span class="item" title="本文字数"><span class="icon"><i class="ic i-pen"></i></span><span class="text">本文字数</span><span>8.3k</span><span class="text">字</span></span><span class="item" title="阅读时长"><span class="icon"><i class="ic i-clock"></i></span><span class="text">阅读时长</span><span>8 分钟</span></span></div></div></div><nav id="nav"><div class="inner"><div class="toggle"><div class="lines" aria-label="切换导航栏"><span class="line"></span><span class="line"></span><span class="line"></span></div></div><ul class="menu"><li class="item title"><a href="/" rel="start">Come On</a></li></ul><ul class="right" id="rightNav"><li class="item theme" @click="changeThemeByBtn"><i class="ic" :class="{'i-sun': !themeStatus,'i-moon': themeStatus}"></i></li><li class="item search"><i class="ic i-search"></i></li></ul></div></nav></div><div class="pjax" id="imgs"><ul><li class="item" data-background-image="https://blog-image-1303709080.cos.ap-chengdu.myqcloud.com/system_images/image50.webp"></li><li class="item" data-background-image="https://blog-image-1303709080.cos.ap-chengdu.myqcloud.com/system_images/image83.webp"></li><li class="item" data-background-image="https://blog-image-1303709080.cos.ap-chengdu.myqcloud.com/system_images/image48.webp"></li><li class="item" data-background-image="https://blog-image-1303709080.cos.ap-chengdu.myqcloud.com/system_images/image82.webp"></li><li class="item" data-background-image="https://blog-image-1303709080.cos.ap-chengdu.myqcloud.com/system_images/image93.webp"></li><li class="item" data-background-image="https://blog-image-1303709080.cos.ap-chengdu.myqcloud.com/system_images/image52.webp"></li></ul></div></header><div id="waves"><svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z"></path></defs><g class="parallax"><use xlink:href="#gentle-wave" x="48" y="0"></use><use xlink:href="#gentle-wave" x="48" y="3"></use><use xlink:href="#gentle-wave" x="48" y="5"></use><use xlink:href="#gentle-wave" x="48" y="7"></use></g></svg></div><main><div class="inner"><div class="pjax" id="main"><div class="article wrap"><div class="breadcrumb" itemListElement itemscope itemtype="https://schema.org/BreadcrumbList"><i class="ic i-home"></i><span><a href="/">首页</a></span><i class="ic i-angle-right"></i><span itemprop="itemListElement" itemscope="itemscope" itemtype="https://schema.org/ListItem"><a href="/categories/vue%E5%AD%A6%E4%B9%A0/" itemprop="item" rel="index" title="分类于vue学习"><span itemprop="name">vue学习<meta itemprop="position" content="0"/></span></a></span></div><article class="post block" itemscope="itemscope" itemtype="http://schema.org/Article" lang="zh-CN"><link itemprop="mainEntityOfPage" href="http://blog.1think2program.cn/2023/07/03/vue%E5%AD%A6%E4%B9%A0/v-on%E8%AF%A6%E8%A7%A3/"/><span hidden="hidden" itemprop="author" itemscope="itemscope" itemtype="http://schema.org/Person"><meta itemprop="image" content="/assets/avatar.jpg"/><meta itemprop="name" content="盧瞳"/><meta itemprop="description" content="先思考,后编程, "/></span><span hidden="hidden" itemprop="publisher" itemscope="itemscope" itemtype="http://schema.org/Organization"><meta itemprop="name" content="盧瞳Blog"/></span><div class="body md" itemprop="articleBody"><h1 id="vue-监听事件v-on"><a class="markdownIt-Anchor" href="#vue-监听事件v-on">#</a> vue 监听事件–v-on</h1>
+<h2 id="基础用法"><a class="markdownIt-Anchor" href="#基础用法">#</a> 基础用法</h2>
+<p>v-on 的用法大体分为俩种分别是:  <code>v-on:click</code>  和  <code>v-on:keyup(键弹起) </code>    <code>v-on:keydown(键按下)</code>  分别用来监听鼠标和键盘事件</p>
+<p>最后关于监听种类更具体的事件需要用到事件修饰符，它是紧跟在 <code>v-on:click/keyup</code>  后面用点好隔开的特定参数</p>
+<p>实例：打字练习</p>
+<blockquote>
+<p>这个实例综合有点强，用到了 v-bind v-on v-model 这三个指令，此外还使用了 watch 参数监听属性</p>
+</blockquote>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">&quot;en&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">&quot;UTF-8&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>打字练习<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;vue.min.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="language-css"></span></span><br><span class="line"><span class="language-css">      <span class="selector-class">.spellRight</span>&#123;</span></span><br><span class="line"><span class="language-css">        <span class="attribute">color</span>: darkgreen;</span></span><br><span class="line"><span class="language-css">      &#125;</span></span><br><span class="line"><span class="language-css">      <span class="selector-class">.spellWrong</span>&#123;</span></span><br><span class="line"><span class="language-css">        <span class="attribute">color</span>: orangered;</span></span><br><span class="line"><span class="language-css">      &#125;</span></span><br><span class="line"><span class="language-css">    </span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;app&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line">      <span class="tag">&lt;<span class="name">button</span> <span class="attr">v-if</span>=<span class="string">&quot;!begin&quot;</span> <span class="attr">v-on:click</span>=<span class="string">&quot;beginGame&quot;</span>&gt;</span>点击开始游戏<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">div</span> <span class="attr">v-else</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">p</span>&gt;</span>&#123;&#123;tipText&#125;&#125;<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;text&quot;</span> @<span class="attr">keyup.enter</span>=<span class="string">&quot;spellCheck&quot;</span> <span class="attr">v-model</span>=<span class="string">&quot;message&quot;</span> <span class="attr">v-bind:class</span>=<span class="string">&quot;spellCheckFlag?&#x27;spellRight&#x27;:&#x27;spellWrong&#x27;&quot;</span>&gt;</span></span><br><span class="line">        回车提交</span><br><span class="line">        <span class="tag">&lt;<span class="name">p</span> <span class="attr">style</span>=<span class="string">&quot;color: orangered&quot;</span>&gt;</span>&#123;&#123;wrongTip&#125;&#125;<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">      <span class="keyword">new</span> <span class="title class_">Vue</span>(&#123;</span></span><br><span class="line"><span class="language-javascript">        <span class="attr">el</span>:<span class="string">&quot;#app&quot;</span>,</span></span><br><span class="line"><span class="language-javascript">        <span class="attr">data</span>:&#123;</span></span><br><span class="line"><span class="language-javascript">          <span class="attr">begin</span>: <span class="literal">false</span>, <span class="comment">// 游戏开始标识</span></span></span><br><span class="line"><span class="language-javascript">          <span class="attr">spellCheckFlag</span>:<span class="literal">true</span>, <span class="comment">// 单词正确css和错误css切换标识</span></span></span><br><span class="line"><span class="language-javascript">          <span class="attr">message</span>:<span class="string">&quot;&quot;</span>, <span class="comment">// 用户输入框输入文本</span></span></span><br><span class="line"><span class="language-javascript">          <span class="attr">tipText</span>: <span class="string">&quot;&quot;</span>, <span class="comment">// 提示文字</span></span></span><br><span class="line"><span class="language-javascript">          <span class="attr">wrongTip</span>:<span class="string">&quot;&quot;</span>, <span class="comment">// 错误提示信息</span></span></span><br><span class="line"><span class="language-javascript">          <span class="attr">words</span>:[<span class="string">&quot;data&quot;</span>, <span class="string">&quot;methods&quot;</span>,<span class="string">&quot;watch&quot;</span>,<span class="string">&quot;el&quot;</span>], <span class="comment">// 单词列表</span></span></span><br><span class="line"><span class="language-javascript">          <span class="attr">num</span>:<span class="number">0</span> <span class="comment">// 单词列表计数</span></span></span><br><span class="line"><span class="language-javascript">        &#125;,</span></span><br><span class="line"><span class="language-javascript">        <span class="attr">methods</span>:&#123;</span></span><br><span class="line"><span class="language-javascript">          <span class="comment">// 监听开始游戏事件</span></span></span><br><span class="line"><span class="language-javascript">          <span class="attr">beginGame</span>:<span class="keyword">function</span> (<span class="params"></span>)&#123;</span></span><br><span class="line"><span class="language-javascript">            <span class="variable language_">this</span>.<span class="property">begin</span>=<span class="literal">true</span>;</span></span><br><span class="line"><span class="language-javascript">            <span class="variable language_">this</span>.<span class="property">tipText</span>= <span class="variable language_">this</span>.<span class="property">words</span>[<span class="variable language_">this</span>.<span class="property">num</span>];</span></span><br><span class="line"><span class="language-javascript">          &#125;,</span></span><br><span class="line"><span class="language-javascript">          <span class="comment">// 监听按键回车点击 并 游戏输入检查</span></span></span><br><span class="line"><span class="language-javascript">          <span class="attr">spellCheck</span>:<span class="keyword">function</span> (<span class="params"></span>)&#123;</span></span><br><span class="line"><span class="language-javascript">            <span class="keyword">if</span>(<span class="variable language_">this</span>.<span class="property">message</span>===<span class="variable language_">this</span>.<span class="property">words</span>[<span class="variable language_">this</span>.<span class="property">num</span>])&#123;</span></span><br><span class="line"><span class="language-javascript">              <span class="comment">//输入正确 判断游戏是否结束</span></span></span><br><span class="line"><span class="language-javascript">              <span class="keyword">if</span> (<span class="variable language_">this</span>.<span class="property">num</span>+<span class="number">1</span>&lt;<span class="variable language_">this</span>.<span class="property">words</span>.<span class="property">length</span>) &#123;</span></span><br><span class="line"><span class="language-javascript">                <span class="comment">//没有结束切换下一个词</span></span></span><br><span class="line"><span class="language-javascript">                <span class="variable language_">this</span>.<span class="property">num</span> += <span class="number">1</span>;</span></span><br><span class="line"><span class="language-javascript">                <span class="variable language_">this</span>.<span class="property">tipText</span>=<span class="variable language_">this</span>.<span class="property">words</span>[<span class="variable language_">this</span>.<span class="property">num</span>];</span></span><br><span class="line"><span class="language-javascript">                <span class="variable language_">this</span>.<span class="property">message</span>=<span class="string">&quot;&quot;</span>;</span></span><br><span class="line"><span class="language-javascript">                <span class="variable language_">this</span>.<span class="property">wrongTip</span>=<span class="string">&quot;&quot;</span>;</span></span><br><span class="line"><span class="language-javascript">              &#125;<span class="keyword">else</span> &#123;</span></span><br><span class="line"><span class="language-javascript">                <span class="comment">// 结束,弹出提示,重新开始</span></span></span><br><span class="line"><span class="language-javascript">                <span class="comment">//初始化</span></span></span><br><span class="line"><span class="language-javascript">                <span class="variable language_">this</span>.<span class="property">begin</span>=<span class="literal">false</span>;</span></span><br><span class="line"><span class="language-javascript">                <span class="variable language_">this</span>.<span class="property">spellCheckFlag</span>=<span class="literal">true</span>;</span></span><br><span class="line"><span class="language-javascript">                <span class="variable language_">this</span>.<span class="property">message</span>=<span class="string">&quot;&quot;</span>;</span></span><br><span class="line"><span class="language-javascript">                <span class="variable language_">this</span>.<span class="property">tipText</span>= <span class="string">&quot;&quot;</span>;</span></span><br><span class="line"><span class="language-javascript">                <span class="variable language_">this</span>.<span class="property">wrongTip</span>=<span class="string">&quot;&quot;</span>;</span></span><br><span class="line"><span class="language-javascript">                <span class="variable language_">this</span>.<span class="property">num</span>=<span class="number">0</span></span></span><br><span class="line"><span class="language-javascript">                <span class="title function_">alert</span>(<span class="string">&quot;游戏结束!&quot;</span>);</span></span><br><span class="line"><span class="language-javascript">              &#125;</span></span><br><span class="line"><span class="language-javascript">            &#125;<span class="keyword">else</span> &#123;</span></span><br><span class="line"><span class="language-javascript">              <span class="comment">// 提示输入错误</span></span></span><br><span class="line"><span class="language-javascript">              <span class="variable language_">this</span>.<span class="property">wrongTip</span>=<span class="string">&quot;错误&quot;</span>;</span></span><br><span class="line"><span class="language-javascript">            &#125;</span></span><br><span class="line"><span class="language-javascript">          &#125;,</span></span><br><span class="line"><span class="language-javascript">        &#125;,</span></span><br><span class="line"><span class="language-javascript">        <span class="attr">watch</span>:&#123;</span></span><br><span class="line"><span class="language-javascript">          <span class="comment">// 监听字符输入 进行拼写检查 切换css</span></span></span><br><span class="line"><span class="language-javascript">          <span class="attr">message</span>:<span class="keyword">function</span> (<span class="params">val</span>)&#123;</span></span><br><span class="line"><span class="language-javascript">            <span class="keyword">if</span>(val===<span class="variable language_">this</span>.<span class="property">words</span>[<span class="variable language_">this</span>.<span class="property">num</span>])&#123;</span></span><br><span class="line"><span class="language-javascript">              <span class="variable language_">this</span>.<span class="property">spellCheckFlag</span>=<span class="literal">true</span>;</span></span><br><span class="line"><span class="language-javascript">            &#125;<span class="keyword">else</span> &#123;</span></span><br><span class="line"><span class="language-javascript">              <span class="variable language_">this</span>.<span class="property">spellCheckFlag</span>=<span class="literal">false</span>;</span></span><br><span class="line"><span class="language-javascript">            &#125;</span></span><br><span class="line"><span class="language-javascript">          &#125;</span></span><br><span class="line"><span class="language-javascript">        &#125;</span></span><br><span class="line"><span class="language-javascript">      &#125;)</span></span><br><span class="line"><span class="language-javascript">    </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="绑定多个事件"><a class="markdownIt-Anchor" href="#绑定多个事件">#</a> 绑定多个事件</h2>
+<p>在上个简单示例中我们只绑定了一个事件，事实上 v-on 允许我们绑定多个事件，请使用方法 <code>v-on=&#123;事件1,事件2&#125;</code></p>
+<h2 id="缩写"><a class="markdownIt-Anchor" href="#缩写">#</a> 缩写</h2>
+<p>相比与 <code>v-bind</code>  可以缩写为 <code>:</code>   <code>v-on</code>  则是可以缩写为 <code>@</code> 例如 <code>@click</code>  和 <code>@keyup</code></p>
+<h2 id="事件修饰符"><a class="markdownIt-Anchor" href="#事件修饰符">#</a> 事件修饰符</h2>
+<blockquote>
+<p>注意 :  v-on 允许我们使用多个事件修饰符</p>
+</blockquote>
+<h3 id="基本的事件修饰符"><a class="markdownIt-Anchor" href="#基本的事件修饰符">#</a> 基本的事件修饰符</h3>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>介绍</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>.stop</td>
+<td>阻止冒泡。本质是调用 event.stopPropagation ()。</td>
+</tr>
+<tr>
+<td>.prevent</td>
+<td>阻止默认事件（默认行为）。本质是调用 event.preventDefault ()。</td>
+</tr>
+<tr>
+<td>.capture</td>
+<td>添加事件监听器时，使用捕获的方式（也就是说，事件采用捕获的方式，而不是采用冒泡的方式）。</td>
+</tr>
+<tr>
+<td>.self</td>
+<td>只有当事件在该元素本身（比如不是子元素）触发时，才会触发回调。</td>
+</tr>
+<tr>
+<td>.once</td>
+<td>事件只触发一次。</td>
+</tr>
+<tr>
+<td>.{keyCode|keyAlias}</td>
+<td>只当事件是从侦听器绑定的元素本身触发时，才触发回调。</td>
+</tr>
+<tr>
+<td>.native</td>
+<td>监听组件根元素的原生事件。</td>
+</tr>
+</tbody>
+</table>
+<p>其中 .capture 作用是 令事件采用捕获的方式，而不是采用冒泡的方式。其中冒泡和捕获的区别为:</p>
+<p><strong>1. 冒泡是从里往外冒，捕获是从外往里捕。</strong></p>
+<p><strong>2. 当捕获存在时，先从外到里的捕获，剩下的从里到外的冒泡输出。</strong></p>
+<h3 id="按键修饰符"><a class="markdownIt-Anchor" href="#按键修饰符">#</a> 按键修饰符</h3>
+<blockquote>
+<p>按键修饰符用来检测具体的按键常常配合 @keyup 使用</p>
+</blockquote>
+<p>vue 中定义了常见的键码分别为</p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>别名</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>回车</td>
+<td>enter</td>
+</tr>
+<tr>
+<td>删除</td>
+<td>delete (捕获 “删除” 和 “退格” 键)</td>
+</tr>
+<tr>
+<td>退出</td>
+<td>esc</td>
+</tr>
+<tr>
+<td>空格</td>
+<td>space</td>
+</tr>
+<tr>
+<td>换行</td>
+<td>tab (特殊，必须配合 keydown 去使用)</td>
+</tr>
+<tr>
+<td>上</td>
+<td>up</td>
+</tr>
+<tr>
+<td>下</td>
+<td>down</td>
+</tr>
+<tr>
+<td>左</td>
+<td>left</td>
+</tr>
+<tr>
+<td>右</td>
+<td>right</td>
+</tr>
+</tbody>
+</table>
+<p>Vue 未提供别名的按键，可以使用按键原始的 key 值去绑定，但注意要转为 kebab-case（短横线命名）其语法格式为 <code>自定义键名 = 键码</code>  具体键码数值请参照附录</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">&quot;en&quot;</span>&gt;</span></span><br><span class="line">head&gt;</span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">&quot;UTF-8&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>添加自定义键码<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;vue.min.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;app&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">placeholder</span>=<span class="string">&quot;按下回车弹出提示信息&quot;</span> @<span class="attr">keyup.huiche</span>=<span class="string">&quot;alertInfo&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">    <span class="keyword">var</span> vm =<span class="keyword">new</span> <span class="title class_">Vue</span>(&#123;</span></span><br><span class="line"><span class="language-javascript">      <span class="attr">el</span>:<span class="string">&quot;#app&quot;</span>,</span></span><br><span class="line"><span class="language-javascript">      <span class="attr">methods</span>:&#123;</span></span><br><span class="line"><span class="language-javascript">        <span class="comment">/** </span></span></span><br><span class="line"><span class="comment"><span class="language-javascript">            一个速记函数</span></span></span><br><span class="line"><span class="comment"><span class="language-javascript">            展开形式为:</span></span></span><br><span class="line"><span class="comment"><span class="language-javascript">            alertInfo:fuction()&#123;&#125;</span></span></span><br><span class="line"><span class="comment"><span class="language-javascript">        **/</span></span></span><br><span class="line"><span class="language-javascript">        <span class="title function_">alertInfo</span>(<span class="params"></span>)&#123;</span></span><br><span class="line"><span class="language-javascript">          <span class="title function_">alert</span>(<span class="string">&quot;我们自定义了一个`huiche`按键修饰符&quot;</span>)</span></span><br><span class="line"><span class="language-javascript">        &#125;</span></span><br><span class="line"><span class="language-javascript">      &#125;</span></span><br><span class="line"><span class="language-javascript">    &#125;);</span></span><br><span class="line"><span class="language-javascript">    <span class="title class_">Vue</span>.<span class="property">config</span>.<span class="property">keyCodes</span>.<span class="property">huiche</span> = <span class="number">13</span>;</span></span><br><span class="line"><span class="language-javascript">  </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>当你需要定义多个按键修饰符时请传入对象</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="title class_">Vue</span>.<span class="property">config</span>.<span class="property">keyCodes</span> = &#123;</span><br><span class="line">        <span class="attr">f2</span>: <span class="number">113</span>,</span><br><span class="line">        <span class="attr">huiche</span>: <span class="number">13</span></span><br><span class="line">    &#125;;</span><br></pre></td></tr></table></figure>
+<h3 id="系统修饰键用法特殊ctrl-alt-shift-meta"><a class="markdownIt-Anchor" href="#系统修饰键用法特殊ctrl-alt-shift-meta">#</a> 系统修饰键（用法特殊）：ctrl、alt、shift、meta</h3>
+<ul>
+<li>配合 keyup 使用：按下修饰键的同时，再按下其他键，随后释放其他键，事件才被触发。</li>
+<li>配合 keydown 使用：正常触发事件。</li>
+</ul>
+<p>其使用方法类似 <code>@keyup.ctrl.y</code>  意思是输入 (ctrl+y) 事件</p>
+<h2 id="附录-键码表"><a class="markdownIt-Anchor" href="#附录-键码表">#</a> 附录 – 键码表</h2>
+<p>字母和数字键的键码值（keyCode）</p>
+<table>
+<thead>
+<tr>
+<th>按键</th>
+<th>键码</th>
+<th>按键</th>
+<th>键码</th>
+<th>按键</th>
+<th>键码</th>
+<th>按键</th>
+<th>键码</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A</td>
+<td>65</td>
+<td>J</td>
+<td>74</td>
+<td>S</td>
+<td>83</td>
+<td>1</td>
+<td>49</td>
+</tr>
+<tr>
+<td>B</td>
+<td>66</td>
+<td>K</td>
+<td>75</td>
+<td>T</td>
+<td>84</td>
+<td>2</td>
+<td>50</td>
+</tr>
+<tr>
+<td>C</td>
+<td>67</td>
+<td>L</td>
+<td>76</td>
+<td>U</td>
+<td>85</td>
+<td>3</td>
+<td>51</td>
+</tr>
+<tr>
+<td>D</td>
+<td>68</td>
+<td>M</td>
+<td>77</td>
+<td>V</td>
+<td>86</td>
+<td>4</td>
+<td>52</td>
+</tr>
+<tr>
+<td>E</td>
+<td>69</td>
+<td>N</td>
+<td>78</td>
+<td>W</td>
+<td>87</td>
+<td>5</td>
+<td>53</td>
+</tr>
+<tr>
+<td>F</td>
+<td>70</td>
+<td>O</td>
+<td>79</td>
+<td>X</td>
+<td>88</td>
+<td>6</td>
+<td>54</td>
+</tr>
+<tr>
+<td>G</td>
+<td>71</td>
+<td>P</td>
+<td>80</td>
+<td>Y</td>
+<td>89</td>
+<td>7</td>
+<td>55</td>
+</tr>
+<tr>
+<td>H</td>
+<td>72</td>
+<td>Q</td>
+<td>81</td>
+<td>Z</td>
+<td>90</td>
+<td>8</td>
+<td>56</td>
+</tr>
+<tr>
+<td>I</td>
+<td>73</td>
+<td>R</td>
+<td>82</td>
+<td>0</td>
+<td>48</td>
+<td>9</td>
+<td>57</td>
+</tr>
+</tbody>
+</table>
+<p>数字键盘上的各键键码值（keyCode）    功能键键码值（keyCode）</p>
+<table>
+<thead>
+<tr>
+<th>按键</th>
+<th>键码</th>
+<th>按键</th>
+<th>键码</th>
+<th>按键</th>
+<th>键码</th>
+<th>按键</th>
+<th>键码</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>96</td>
+<td>8</td>
+<td>104</td>
+<td>F1</td>
+<td>112</td>
+<td>F9</td>
+<td>120</td>
+</tr>
+<tr>
+<td>1</td>
+<td>97</td>
+<td>9</td>
+<td>105</td>
+<td>F2</td>
+<td>113</td>
+<td>F10</td>
+<td>121</td>
+</tr>
+<tr>
+<td>2</td>
+<td>98</td>
+<td>*</td>
+<td>106</td>
+<td>F3</td>
+<td>114</td>
+<td>F11</td>
+<td>122</td>
+</tr>
+<tr>
+<td>3</td>
+<td>99</td>
+<td>+</td>
+<td>107</td>
+<td>F4</td>
+<td>115</td>
+<td>F12</td>
+<td>123</td>
+</tr>
+<tr>
+<td>4</td>
+<td>100</td>
+<td>Enter</td>
+<td>108</td>
+<td>F5</td>
+<td>116</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>5</td>
+<td>101</td>
+<td>-</td>
+<td>109</td>
+<td>F6</td>
+<td>117</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>6</td>
+<td>102</td>
+<td>.</td>
+<td>110</td>
+<td>F7</td>
+<td>118</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>7</td>
+<td>103</td>
+<td>/</td>
+<td>111</td>
+<td>F8</td>
+<td>119</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<table><thead><tr><th colspan="8">控制键键码值（keyCode）</th></tr></thead><tbody><tr><td><strong>按键</strong></td><td><strong>键码</strong></td><td><strong>按键</strong></td><td><strong>键码</strong></td><td><strong>按键</strong></td><td><strong>键码</strong></td><td><strong>按键</strong></td><td><strong>键码</strong></td></tr><tr><td><strong>BackSpace</strong></td><td>8</td><td><strong>Esc</strong></td><td>27</td><td><strong>Right Arrow</strong></td><td>39</td><td><strong>-_</strong></td><td>189</td></tr><tr><td><strong>Tab</strong></td><td>9</td><td><strong>Spacebar</strong></td><td>32</td><td><strong>Dw Arrow</strong></td><td>40</td><td><strong>.></strong></td><td>190</td></tr><tr><td><strong>Clear</strong></td><td>12</td><td><strong>Page Up</strong></td><td>33</td><td><strong>Insert</strong></td><td>45</td><td><strong>/?</strong></td><td>191</td></tr><tr><td><strong>Enter</strong></td><td>13</td><td><strong>Page Down</strong></td><td>34</td><td><strong>Delete</strong></td><td>46</td><td><strong>`~</strong></td><td>192</td></tr><tr><td><strong>Shift</strong></td><td>16</td><td><strong>End</strong></td><td>35</td><td><strong>Num Lock</strong></td><td>144</td><td><strong>[{ 
+     </strong></td><td>219</td></tr><tr><td><strong>Control</strong></td><td>17</td><td><strong>Home</strong></td><td>36</td><td><strong>;:</strong></td><td>186</td><td><strong>\|</strong></td><td>220</td></tr><tr><td><strong>Alt</strong></td><td>18</td><td><strong>Left Arrow</strong></td><td>37</td><td><strong>=+</strong></td><td>187</td><td><strong>]}</strong></td><td>221</td></tr><tr><td><strong>Cape Lock</strong></td><td>20</td><td><strong>Up Arrow</strong></td><td>38</td><td><strong>,<</strong></td><td>188</td><td><strong>'"</strong></td><td>222</td></tr></tbody></table>
+<p>多媒体键码值（keyCode）</p>
+<table>
+<thead>
+<tr>
+<th>按键</th>
+<th>键码</th>
+<th>按键</th>
+<th>键码</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>音量加</td>
+<td>175</td>
+<td>浏览器</td>
+<td>172</td>
+</tr>
+<tr>
+<td>音量减</td>
+<td>174</td>
+<td>邮件</td>
+<td>180</td>
+</tr>
+<tr>
+<td>停止</td>
+<td>179</td>
+<td>搜索</td>
+<td>170</td>
+</tr>
+<tr>
+<td>静音</td>
+<td>173</td>
+<td>收藏</td>
+<td>171</td>
+</tr>
+</tbody>
+</table>
+<h2 id="参考资料"><a class="markdownIt-Anchor" href="#参考资料">#</a> 参考资料</h2>
+<p><span class="exturl" data-url="aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3hpYW9DaGVuUGVuZ1lvdS9hcnRpY2xlL2RldGFpbHMvMTIwNTU4MzU5">CSDN - 陈小同学 v-on 的修饰符</span></p>
+<p><span class="exturl" data-url="aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NhdGFzY2RkL2FydGljbGUvZGV0YWlscy8xMDgyNzM5MzE=">CSDN - 木木木华 Vue 事件符.capture 的含义用法</span></p>
+<p><span class="exturl" data-url="aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L20wXzQ2NjcyNzgxL2FydGljbGUvZGV0YWlscy8xMjMxODc4MzI=">CSDN - 勇敢 * 牛牛【Vue】基础系列（七）键盘事件_vue.config.keycodes</span></p>
+<p><span class="exturl" data-url="aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2xoa3V4aWEvYXJ0aWNsZS9kZXRhaWxzLzEyMzcyNzM4OQ==">CSDN - 苦夏木禾 键盘键码 keyCode 对照表</span></p>
+<div class="tags"><a href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag"><i class="ic i-tag"></i>前端</a><a href="/tags/vue/" rel="tag"><i class="ic i-tag"></i>vue</a></div></div><footer><div class="meta"><span class="icon"><i class="ic i-eye"></i></span><span>此文章已被阅读次数:</span><span class="waline-pageview-count" id="twikoo_visitors" data-path="2023/07/03/vue学习/v-on详解/">正在加载...</span><span class="item"><span class="icon"><i class="ic i-calendar-check"></i></span><span class="text">更新于</span><time title="修改时间：2023-07-10 20:31:54" itemprop="dateModified" datetime="2023-07-10T20:31:54+08:00">2023-07-10</time></span></div><div class="reward"><button><i class="ic i-heartbeat"></i>赞赏</button><p>请我喝[茶]~(￣▽￣)~*</p><div id="qr"><div><img data-src="/assets/wechatpay.png" alt="盧瞳 微信支付"/><p>微信支付</p></div><div><img data-src="/assets/alipay.png" alt="盧瞳 支付宝"/><p>支付宝</p></div></div></div><div id="copyright"><ul><li class="author"><strong>本文作者：</strong>盧瞳<i class="ic i-at"><em>@</em></i>盧瞳Blog</li><li class="link"><strong>本文链接：</strong><a href="http://blog.1think2program.cn/2023/07/03/vue%E5%AD%A6%E4%B9%A0/v-on%E8%AF%A6%E8%A7%A3/" title="v-on详解">http://blog.1think2program.cn/2023/07/03/vue学习/v-on详解/</a></li><li class="license"><strong>版权声明：</strong>本站所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" rel="noopener" target="_blank"><i class="ic i-creative-commons"><em>(CC)</em></i>BY-NC-SA</a> 许可协议。转载请注明出处！</li></ul></div></footer></article></div><div class="post-nav"><div class="item left"><a href="/2023/07/02/vue%E5%AD%A6%E4%B9%A0/v-bind%E8%AF%A6%E8%A7%A3/" rel="prev" itemprop="url" data-background-image="https:&#x2F;&#x2F;blog-image-1303709080.cos.ap-chengdu.myqcloud.com&#x2F;system_images&#x2F;image44.webp" title="v-bind详解"><span class="type">上一篇</span><span class="category"><i class="ic i-flag"></i>vue学习</span><h3>v-bind详解</h3></a></div><div class="item right"><a href="/2023/07/06/vue%E5%AD%A6%E4%B9%A0/vue%E7%BB%84%E4%BB%B6/" rel="next" itemprop="url" data-background-image="https:&#x2F;&#x2F;blog-image-1303709080.cos.ap-chengdu.myqcloud.com&#x2F;system_images&#x2F;image3.webp" title="vue组件"><span class="type">下一篇</span><span class="category"><i class="ic i-flag"></i>vue学习</span><h3>vue组件</h3></a></div></div><div class="wrap" id="wcomments"></div><script type="module" data-pjax="data-pjax">import { init } from 'https://unpkg.com/@waline/client@v2/dist/waline.mjs';
+
+const path = document.getElementById("twikoo_visitors").getAttribute("data-path");
+setTimeout(function () {
+    init({
+        el: '#wcomments',
+        serverURL: 'https://waline.1think2program.cn',
+        lang: 'zh-CN',
+        locale: {},
+        emoji: ["https://unpkg.com/@waline/emojis@1.0.1/weibo","https://unpkg.com/@waline/emojis@1.0.1/alus","https://unpkg.com/@waline/emojis@1.0.1/bilibili","https://unpkg.com/@waline/emojis@1.0.1/qq","https://unpkg.com/@waline/emojis@1.0.1/tieba","https://unpkg.com/@waline/emojis@1.0.1/tw-emoji"],
+        meta: ["nick","mail","link"],
+        requiredMeta: ["nick","mail"],
+        wordLimit: 200,
+        pageSize: 10,
+        pageview: true,
+        path: path,
+        dark: 'html[data-theme="dark"]'
+    });
+}, 1000)</script></div><div id="sidebar"><div class="inner"><div class="panels"><div class="inner"><div class="contents panel pjax" data-title="文章目录"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#vue-%E7%9B%91%E5%90%AC%E4%BA%8B%E4%BB%B6v-on"><span class="toc-number">1.</span> <span class="toc-text"> vue 监听事件–v-on</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80%E7%94%A8%E6%B3%95"><span class="toc-number">1.1.</span> <span class="toc-text"> 基础用法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%91%E5%AE%9A%E5%A4%9A%E4%B8%AA%E4%BA%8B%E4%BB%B6"><span class="toc-number">1.2.</span> <span class="toc-text"> 绑定多个事件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%A9%E5%86%99"><span class="toc-number">1.3.</span> <span class="toc-text"> 缩写</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8B%E4%BB%B6%E4%BF%AE%E9%A5%B0%E7%AC%A6"><span class="toc-number">1.4.</span> <span class="toc-text"> 事件修饰符</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E7%9A%84%E4%BA%8B%E4%BB%B6%E4%BF%AE%E9%A5%B0%E7%AC%A6"><span class="toc-number">1.4.1.</span> <span class="toc-text"> 基本的事件修饰符</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8C%89%E9%94%AE%E4%BF%AE%E9%A5%B0%E7%AC%A6"><span class="toc-number">1.4.2.</span> <span class="toc-text"> 按键修饰符</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B3%BB%E7%BB%9F%E4%BF%AE%E9%A5%B0%E9%94%AE%E7%94%A8%E6%B3%95%E7%89%B9%E6%AE%8Actrl-alt-shift-meta"><span class="toc-number">1.4.3.</span> <span class="toc-text"> 系统修饰键（用法特殊）：ctrl、alt、shift、meta</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%99%84%E5%BD%95-%E9%94%AE%E7%A0%81%E8%A1%A8"><span class="toc-number">1.5.</span> <span class="toc-text"> 附录 – 键码表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="toc-number">1.6.</span> <span class="toc-text"> 参考资料</span></a></li></ol></li></ol></div><div class="related panel pjax" data-title="系列文章"><ul><li ><a href="/2023/07/01/vue%E5%AD%A6%E4%B9%A0/vue%E5%AD%A6%E4%B9%A0/" rel="bookmark" title="vue学习大纲">vue学习大纲</a></li><li ><a href="/2023/07/02/vue%E5%AD%A6%E4%B9%A0/v-bind%E8%AF%A6%E8%A7%A3/" rel="bookmark" title="v-bind详解">v-bind详解</a></li><li ><a href="/2023/07/02/vue%E5%AD%A6%E4%B9%A0/v-model%E8%AF%A6%E8%A7%A3/" rel="bookmark" title="v-mode详解">v-mode详解</a></li><li  class="active"><a href="/2023/07/03/vue%E5%AD%A6%E4%B9%A0/v-on%E8%AF%A6%E8%A7%A3/" rel="bookmark" title="v-on详解">v-on详解</a></li><li ><a href="/2023/07/06/vue%E5%AD%A6%E4%B9%A0/vue%E7%BB%84%E4%BB%B6/" rel="bookmark" title="vue组件">vue组件</a></li><li ><a href="/2023/07/08/vue%E5%AD%A6%E4%B9%A0/%E7%9B%91%E5%90%AC%E5%B1%9E%E6%80%A7/" rel="bookmark" title="Vue 监听属性 watch">Vue 监听属性 watch</a></li><li ><a href="/2023/07/11/vue%E5%AD%A6%E4%B9%A0/vuex%E4%BD%BF%E7%94%A8/" rel="bookmark" title="vuex使用">vuex使用</a></li><li ><a href="/2023/07/11/vue%E5%AD%A6%E4%B9%A0/%E4%BD%BF%E7%94%A8VueRouter%E7%AE%A1%E7%90%86%E8%B7%AF%E7%94%B1/" rel="bookmark" title="使用VueRouter管理路由">使用VueRouter管理路由</a></li></ul></div><div class="overview panel" data-title="站点概览"><div class="author" itemprop="author" itemscope="itemscope" itemtype="http://schema.org/Person"><img class="image" itemprop="image" alt="盧瞳" data-src="/assets/avatar.jpg"/><p class="name" itemprop="name">盧瞳</p><div class="description" itemprop="description"></div></div><nav class="state"><div class="item posts"><a href="/archives/"><span class="count">18</span><span class="name">文章</span></a></div><div class="item categories"><a href="/categories/"><span class="count">6</span><span class="name">分类</span></a></div><div class="item tags"><a href="/tags/"><span class="count">8</span><span class="name">标签</span></a></div></nav><div class="social"><a href="https://github.com/2061360308" class="item github" rel="noopener" title="https:&#x2F;&#x2F;github.com&#x2F;2061360308" target="_blank"><i class="ic i-github"></i></a></div><div class="menu"><li class="item"><a href="/" rel="section"><i class="ic i-home"></i>首页</a></li><li class="item"><a href="/system/about" rel="section"><i class="ic i-user"></i>关于</a></li><li class="item dropdown"><a href="javascript:void(0);"><i class="ic i-feather"></i>文章</a><ul class="submenu"><li class="item"><a href="/archives/" rel="section"><i class="ic i-list-alt"></i>归档</a></li><li class="item"><a href="/categories/" rel="section"><i class="ic i-th"></i>分类</a></li><li class="item"><a href="/tags/" rel="section"><i class="ic i-tags"></i>标签</a></li></ul></li><li class="item"><a href="/system/friends" rel="section"><i class="ic i-heart"></i>友链</a></li><li class="item"><a href="/system/message" rel="section"><i class="ic i-paper-plane"></i>留言板</a></li></div></div></div></div><ul id="quick"><li class="prev pjax"><a href="/2023/07/06/vue%E5%AD%A6%E4%B9%A0/vue%E7%BB%84%E4%BB%B6/" rel="prev" title="上一篇"><i class="ic i-chevron-left"></i></a></li><li class="up"><i class="ic i-arrow-up"></i></li><li class="down"><i class="ic i-arrow-down"></i></li><li class="next pjax"><a href="/2023/07/02/vue%E5%AD%A6%E4%B9%A0/v-bind%E8%AF%A6%E8%A7%A3/" rel="next" title="下一篇"><i class="ic i-chevron-right"></i></a></li><li class="percent"></li></ul></div></div><div class="dimmer"></div></div></main><footer id="footer"><div class="inner"><div class="widgets"><div class="rpost pjax"><h2>随机文章</h2><ul><li class="item"><div class="breadcrumb"><a href="/categories/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F/" title="分类于微信小程序">微信小程序</a></div><span><a href="/2023/07/19/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/">微信小程序学习总结</a></span></li><li class="item"><div class="breadcrumb"><a href="/categories/JavaScript%E5%AD%A6%E4%B9%A0/" title="分类于JavaScript学习">JavaScript学习</a></div><span><a href="/2023/07/12/JavaScript%E5%AD%A6%E4%B9%A0/JavaScript%E7%9A%84Es6/">JavaScript的Es6</a></span></li><li class="item"><div class="breadcrumb"><a href="/categories/%E6%8A%80%E6%9C%AF/" title="分类于技术">技术</a></div><span><a href="/2023/06/17/%E6%8A%80%E6%9C%AF/%E9%9B%A8%E6%BB%B4%E6%A1%8C%E9%9D%A2_rainmeter%E8%84%9A%E6%9C%AC%E7%BC%96%E5%86%99/">rainmeter脚本编写</a></span></li><li class="item"><div class="breadcrumb"><a href="/categories/vue%E5%AD%A6%E4%B9%A0/" title="分类于vue学习">vue学习</a></div><span><a href="/2023/07/03/vue%E5%AD%A6%E4%B9%A0/v-on%E8%AF%A6%E8%A7%A3/">v-on详解</a></span></li><li class="item"><div class="breadcrumb"><a href="/categories/vue%E5%AD%A6%E4%B9%A0/" title="分类于vue学习">vue学习</a></div><span><a href="/2023/07/02/vue%E5%AD%A6%E4%B9%A0/v-model%E8%AF%A6%E8%A7%A3/">v-mode详解</a></span></li><li class="item"><div class="breadcrumb"><a href="/categories/vue%E5%AD%A6%E4%B9%A0/" title="分类于vue学习">vue学习</a></div><span><a href="/2023/07/01/vue%E5%AD%A6%E4%B9%A0/vue%E5%AD%A6%E4%B9%A0/">vue学习大纲</a></span></li><li class="item"><div class="breadcrumb"><a href="/categories/css%E5%AD%A6%E4%B9%A0/" title="分类于css学习">css学习</a></div><span><a href="/2023/07/08/css%E5%AD%A6%E4%B9%A0/%E9%80%89%E6%8B%A9%E5%99%A8/">css 选择器</a></span></li><li class="item"><div class="breadcrumb"><a href="/categories/JavaScript%E5%AD%A6%E4%B9%A0/" title="分类于JavaScript学习">JavaScript学习</a></div><span><a href="/2023/07/12/JavaScript%E5%AD%A6%E4%B9%A0/js%E5%AE%9E%E6%88%98%E5%B0%8F%E8%AF%B4%E7%88%AC%E8%99%AB/">js</a></span></li><li class="item"><div class="breadcrumb"><a href="/categories/%E6%8A%80%E6%9C%AF/" title="分类于技术">技术</a></div><span><a href="/2023/01/02/%E6%8A%80%E6%9C%AF/Flask%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/">Flask 学习汇总</a></span></li><li class="item"><div class="breadcrumb"><a href="/categories/vue%E5%AD%A6%E4%B9%A0/" title="分类于vue学习">vue学习</a></div><span><a href="/2023/07/08/vue%E5%AD%A6%E4%B9%A0/%E7%9B%91%E5%90%AC%E5%B1%9E%E6%80%A7/">Vue 监听属性 watch</a></span></li></ul></div></div><div class="status"><div class="copyright"><span itemprop="copyrightYear">2023</span><span class="with-love"><i class="ic i-sakura rotate"></i></span><span class="author" itemprop="copyrightHolder">盧瞳 @ Come On</span></div><div class="count"><span class="post-meta-item-icon"><i class="ic i-chart-area"></i></span><span title="站点总字数">127k 字</span><span class="post-meta-divider">|</span><span class="post-meta-item-icon"><i class="ic i-coffee"></i></span><span title="站点阅读时长">1:56</span></div><div class="powered-by">基于 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & Theme.<a href="https://github.com/theme-shoka-x/hexo-theme-shokaX/" rel="noopener" target="_blank">ShokaX</a></div></div></div></footer></div><script data-config type="text/javascript">var LOCAL = {
+    path: `2023/07/03/vue学习/v-on详解/`,
+    favicon: {
+    show: `不负韶华`,
+    hide: `以梦为马！`
+},
+search: {
+placeholder: "文章搜索",
+    empty: "关于 「 ${query} 」，什么也没搜到",
+    stats: "${time} ms 内找到 ${hits} 条结果"
+},
+valine: true,
+    chart: false,
+    copy_tex: false,
+    katex: false,
+    mermaid: false,
+    audio: ``,
+    fancybox: true,
+    nocopy: false,
+    outime: true,
+    template: `&lt;div class=&quot;note warning&quot;&gt;&lt;p&gt;&lt;span class=&quot;label warning&quot;&gt;文章时效性提示&lt;/span&gt;&lt;br&gt;这是一篇发布于 {{publish}} 天前，最后一次更新在 {{updated}} 天前的文章，部分信息可能已经发生改变，请注意甄别。&lt;/p&gt;&lt;/div&gt;`,
+    quiz: {
+    choice: `单选题`,
+    multiple: `多选题`,
+    true_false: `判断题`,
+    essay: `问答题`,
+    gap_fill: `填空题`,
+    mistake: `错题备注`
+},
+ignores: [
+(uri) => uri.includes('#'),
+(uri) => new RegExp(LOCAL.path + '$').test(uri),
+    []
+]
+};
+</script><script src="https://polyfill.io/v3/polyfill.min.js?features=default,fetch"></script><script src="https://lf9-cdn-tos.bytecdntp.com/cdn/expire-6-M/pace/1.0.2/pace.min.js"></script><script src="https://unpkg.com/theme-shokax-pjax@latest/pjax.shokax.min.js"></script><script src="https://unpkg.com/theme-shokax-anime@latest/anime.shokax.min.js"></script><script src="https://lf9-cdn-tos.bytecdntp.com/cdn/expire-6-M/algoliasearch/4.12.1/algoliasearch-lite.umd.min.js"></script><script src="https://lf9-cdn-tos.bytecdntp.com/cdn/expire-6-M/instantsearch.js/4.39.0/instantsearch.production.min.js"></script><script src="https://lf9-cdn-tos.bytecdntp.com/cdn/expire-6-M/lozad.js/1.16.0/lozad.min.js"></script><script src="https://lf9-cdn-tos.bytecdntp.com/cdn/expire-6-M/quicklink/2.2.0/quicklink.umd.min.js"></script><script src="https://lf9-cdn-tos.bytecdntp.com/cdn/expire-6-M/??jquery/3.5.1/jquery.min.js,fancybox/3.5.7/jquery.fancybox.min.js,justifiedGallery/3.8.1/js/jquery.justifiedGallery.min.js" async></script><script src="https://lf9-cdn-tos.bytecdntp.com/cdn/expire-6-M/KaTeX/0.12.0/contrib/copy-tex.min.js" async></script><script src="https://unpkg.com/frappe-charts@1.5.0/dist/frappe-charts.min.iife.js"></script><script src="/js/app.js?v=0.2.10"></script>
+    <script type="module" data-pjax>
+        let items = []
+        import { RecentComments } from 'https://unpkg.com/@waline/client@v2/dist/waline.mjs'
+        RecentComments({
+          serverURL: 'https://waline.1think2program.cn',
+          count: 10,
+        }).then(({ comments }) => {
+          comments.forEach(function (item) {
+              let cText = (item.orig.length > 50) ? item.orig.substring(0,50)+'...' : item.orig
+              item.url = item.url !== '/' ?  '/' + item.url : item.url;
+              const siteLink = item.url + "#" + item.objectId
+              items.push({
+                  href: siteLink,
+                  nick: item.nick,
+                  time: item.insertedAt.split('T').shift(),
+                  text: cText
+              })
+          })
+          Vue.createApp({
+            data() {
+                return {
+                    coms: items
+                }
+            }
+          }).mount('#new-comment')
+        }).catch(function (err) {
+          console.error(err)
+        })
+    </script>
+    </body></html>
