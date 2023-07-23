@@ -114,6 +114,7 @@ auto_category:
 ##  type: ''
 
 # 部署到腾讯云cos存储
+# 含有秘钥不可上传
 deploy:
     type: "cos-cdn"
     cloud: "tencent"
