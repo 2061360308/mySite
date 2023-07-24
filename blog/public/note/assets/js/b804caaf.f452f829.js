@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunknote=self.webpackChunknote||[]).push([[2399],{9897:a=>{a.exports=JSON.parse('{"title":"Java","slug":"/category/java","permalink":"/note/category/java","navigation":{"previous":{"title":"\u8bb0Tailwind CSS\u4f7f\u7528","permalink":"/note/tailwind-css-usage"},"next":{"title":"java\u53cd\u5c04","permalink":"/note/skill/java/java-reflect"}}}')}}]);

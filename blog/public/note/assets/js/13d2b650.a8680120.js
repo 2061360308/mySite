@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunknote=self.webpackChunknote||[]).push([[1189],{8243:e=>{e.exports=JSON.parse('{"label":"gin","permalink":"/note/tags/gin","allTagsPath":"/note/tags","count":1,"items":[{"id":"skill/go/try-gin-framework","title":"Gin\u6846\u67b6\u521d\u4f53\u9a8c","description":"\u5b89\u88c5 Gin","permalink":"/note/try-gin-framework"}]}')}}]);

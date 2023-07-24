@@ -4,7 +4,7 @@ markdown:
     xhtmlOut: true # 使用 '/' 来闭合单标签 （比如 <br />）。
     breaks: true # 转换段落里的 '\n' 到 <br>。
     linkify: true # 将类似 URL 的文本自动转换为链接。
-    typographer: 
+    typographer:
     quotes: '“”‘’'
   plugins: # markdown-it 插件设置
     - plugin:
@@ -70,6 +70,7 @@ menu:
 #   default: / || user
 #   aboutsite: /system/about/  || user
 #   admiration: /admiration/ || coffee
+  笔记: /note/skill || at
   posts:
     default: / || feather
     archives: /archives/ || list-alt
@@ -77,7 +78,7 @@ menu:
     tags: /tags/ || tags
   friends: /system/friends || heart
   留言板: /system/message || paper-plane
-  
+
 social:
    github: https://github.com/2061360308 || github || "#191717"
 
@@ -85,7 +86,7 @@ social:
 widgets:
   random_posts: true  # 随机文章
   recent_comments: false  # 显示最近评论
-  
+
 # 字数和阅读时间统计
 # 页尾全站统计
 footer:
@@ -112,7 +113,7 @@ fireworks:
     - "rgba(250,227,217,.9)"
     - "rgba(187,222,214,.9)"
     - "rgba(138,198,209,.9)"
-    
+
 # iconfont
 iconfont: "1832207_c8i9n1ulxlt"
 

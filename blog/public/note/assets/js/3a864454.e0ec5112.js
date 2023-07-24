@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunknote=self.webpackChunknote||[]).push([[6349],{57:t=>{t.exports=JSON.parse('{"label":"algorithm","permalink":"/note/tags/algorithm","allTagsPath":"/note/tags","count":1,"items":[{"id":"skill/algorithm/two-sum","title":"\u4e24\u6570\u4e4b\u548c","description":"TODO: ...","permalink":"/note/two-sum"}]}')}}]);

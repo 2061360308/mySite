@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunknote=self.webpackChunknote||[]).push([[1928],{2181:e=>{e.exports=JSON.parse('{"label":"Terminal","permalink":"/note/tags/terminal","allTagsPath":"/note/tags","count":1,"items":[{"id":"tools/windows-terminal-beautify","title":"Windows Terminal\u7f8e\u5316","description":"image-20210527065050479","permalink":"/note/windows-terminal-beautify"}]}')}}]);

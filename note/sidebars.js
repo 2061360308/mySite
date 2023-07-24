@@ -18,6 +18,17 @@ const sidebars = {
   skill: [
     'skill/introduction',
     {
+      label: "Git/GitHub",
+      type: 'category',
+      link: {
+        type: 'doc',
+        id: 'skill/gitGithub/gitGithub-guides'
+      },
+      items: [
+          "skill/gitGithub/gitGithub-baseCommand"
+      ],
+    },
+    {
       label: 'Docusaurus 主题魔改',
       type: 'category',
       link: {

@@ -1,5 +1,11 @@
 blog/node_modules/
 note/node_modules/
+cosScript/venv/
 blog/back.zip
 /blog/_config.yml
 /blog/_config.yml.bak
+/cosScript/.env
+blog/_config.yml
+blog/_config.yml.bak
+cosScript/.env
+

@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunknote=self.webpackChunknote||[]).push([[8942],{8893:t=>{t.exports=JSON.parse('{"title":"Tutorial - Extras","slug":"/category/tutorial---extras","permalink":"/note/category/tutorial---extras","navigation":{"next":{"title":"Manage Docs Versions","permalink":"/note/tutorial-extras/manage-docs-versions"}}}')}}]);

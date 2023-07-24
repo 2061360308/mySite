@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunknote=self.webpackChunknote||[]).push([[6537],{4850:i=>{i.exports=JSON.parse('{"label":"pinia","permalink":"/note/tags/pinia","allTagsPath":"/note/tags","count":1,"items":[{"id":"skill/vue/pinia","title":"Pinia","description":"\u5b98\u65b9\u6587\u6863\uff1aIntroduction | Pinia (vuejs.org)","permalink":"/note/pinia"}]}')}}]);

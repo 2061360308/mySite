@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunknote=self.webpackChunknote||[]).push([[9283],{9663:e=>{e.exports=JSON.parse('{"label":"mongodb","permalink":"/note/tags/mongodb","allTagsPath":"/note/tags","count":1,"items":[{"id":"skill/database/mongo/mongodb-note","title":"MongoDB\u7b14\u8bb0","description":"\u5b89\u88c5","permalink":"/note/skill/database/mongodb"}]}')}}]);
