@@ -14,4 +14,4 @@ jobs:
 
     runs-on: ubuntu-latest
     steps:
-    - run: echo ${{sercets.COS_SECRET_ID}}
+    - run: echo ${{COS_SECRET_ID}}
